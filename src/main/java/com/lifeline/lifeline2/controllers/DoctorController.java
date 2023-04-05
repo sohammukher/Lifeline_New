@@ -167,7 +167,7 @@ public class DoctorController {
 		Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
 		String url = "jdbc:mysql://localhost:3306/spmdb";
 		String user = "root";
-		String password = "root123";
+		String password = "admin";
 		String query = "SELECT doctor_id, first_name, last_name, email\n" +
 				"\t\tFROM doctor;";
 
@@ -246,7 +246,7 @@ public ResponseEntity<JSONArray> getFutureAppointments(@PathVariable String doct
 
 	String url = "jdbc:mysql://localhost:3306/spmdb";
 	String user = "root";
-	String password = "root123";
+	String password = "admin";
 	String query = "select patient.email, patient.first_name, patient.last_name, self_assessment.self_assessment_score, self_assessment.appointment_status from patient JOIN self_assessment ON \n" +
 			"patient.self_assessment_id = self_assessment.self_assessment_id where patient.doctor_app_id = (\n" +
 			"select doctor_id from doctor where email = '"+doctor_email+"') and patient.doctor_app_id IN (select doctor_id from appointment where appointment_time  >= CURDATE());";
@@ -327,7 +327,7 @@ public ResponseEntity<JSONArray> getFutureAppointments(@PathVariable String doct
 
 		String url = "jdbc:mysql://localhost:3306/spmdb";
 		String user = "root";
-		String password = "root123";
+		String password = "admin";
 		String query = "select patient.email, patient.first_name, patient.last_name, self_assessment.self_assessment_score, self_assessment.appointment_status from patient JOIN self_assessment ON \n" +
 				"patient.self_assessment_id = self_assessment.self_assessment_id where patient.doctor_app_id = (\n" +
 				"select doctor_id from doctor where email = '"+doctor_email+"') and patient.doctor_app_id IN (select doctor_id from appointment where appointment_time  < CURDATE());";
@@ -401,7 +401,7 @@ public ResponseEntity<JSONArray> getFutureAppointments(@PathVariable String doct
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-//Update need Treatment Status in Patient Table:
+	//Update need Treatment Status in Patient Table:
 @PutMapping("/updateTreatmentStatus")
 public ResponseEntity<String> updateTreatmentStatus(@RequestBody String payload) throws Exception {
 
@@ -424,9 +424,9 @@ public ResponseEntity<String> updateTreatmentStatus(@RequestBody String payload)
 
 	String url = "jdbc:mysql://localhost:3306/spmdb";
 	String user = "root";
-	String password = "root123";
+	String password = "admin";
 	String query = "UPDATE patient\n" +
-			"SET needTreatment='true'\n" +
+			"SET needTreatment='false'\n" +
 			"WHERE email='"+patient_email+"'";
 
 	System.out.println("Final Query is : "+query);
@@ -476,7 +476,7 @@ public ResponseEntity<JSONArray> dailyPatientCount(Model model) throws Exception
 	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
 	String url = "jdbc:mysql://localhost:3306/spmdb";
 	String user = "root";
-	String password = "root123";
+	String password = "admin";
 	String query = "select DATE(date_of_birth) as DAY, count(email) as COUNT from patient group by DATE(date_of_birth);";
 
 	Connection con = null;
@@ -556,7 +556,7 @@ public ResponseEntity<JSONArray> monthlyPatientCount(Model model) throws Excepti
 	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
 	String url = "jdbc:mysql://localhost:3306/spmdb";
 	String user = "root";
-	String password = "root123";
+	String password = "admin";
 	String query = "select MONTH(date_of_birth) as MONTH ,YEAR(date_of_birth) as YEAR , count(email) as COUNT\n" +
 			"from patient group by MONTH(date_of_birth), YEAR(date_of_birth);";
 
@@ -636,7 +636,7 @@ public ResponseEntity<JSONArray> weeklyPatientCount(Model model) throws Exceptio
 	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
 	String url = "jdbc:mysql://localhost:3306/spmdb";
 	String user = "root";
-	String password = "root123";
+	String password = "admin";
 	String query = "select WEEK(date_of_birth) as WEEK,MONTH(date_of_birth) as MONTH,YEAR(date_of_birth) as YEAR, count(email) as COUNT from patient group by WEEK(date_of_birth),MONTH(date_of_birth), YEAR(date_of_birth);";
 
 	Connection con = null;
@@ -705,7 +705,5 @@ public ResponseEntity<JSONArray> weeklyPatientCount(Model model) throws Exceptio
 
 	return new ResponseEntity<>(result, HttpStatus.OK);
 }
-
-
 
 }

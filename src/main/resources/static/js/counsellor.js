@@ -33,7 +33,9 @@ document.addEventListener("DOMContentLoaded", function(event){
         }).then(function(results){
             var count=1;
             var table_body="";
-            results.map((patient)=>{
+            results.filter((item)=>{
+                if(item.needTreatment=="true") return item;
+            }).map((patient)=>{
                 var scoreString = patient.question1+patient.question2+patient.question3+patient.question4+
                             patient.question5+patient.question6+patient.question7+patient.question8+patient.question9;
                 var scheduleString = patient.first_name+"-"+patient.last_name+"-"+patient.email;
@@ -275,6 +277,12 @@ document.addEventListener("DOMContentLoaded", function(event){
 
     $(document).on('click', '.send-email', function(){
         var email = this.id
+        var payload = `{"patient_email":"${email}"}`
+        $.ajax('http://localhost:9999/updateTreatmentStatus',{
+            'type': 'PUT',
+            'data': payload,
+            'contentType':'text/html'
+        })
         var link = "mailto:"+email
             + "?cc="
              + "&subject=" + encodeURIComponent("Update on your Self Assessment")
@@ -282,6 +290,8 @@ document.addEventListener("DOMContentLoaded", function(event){
         ;
     
         window.location.href = link;
+        location.reload();
+        document.querySelector(".view-patient").click();
     })
 
     patList.addEventListener('click', function(event){
