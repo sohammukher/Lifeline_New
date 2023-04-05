@@ -62,12 +62,6 @@ public class DoctorController {
 		return "doctor";
 	}
 
-	@GetMapping("/doctor/assess.html")
-	public String goAssess() {
-		//model.addAttribute("cid", cid);
-		//System.out.println("goDoctor:: The doctor cid is : " + cid);
-		return "assess";
-	}
 	public String goDoctorProfile(String id, Model model) {
 		System.out.println("The Doctor id is : " + id);
 		Doctor doctor = doctorService.getDoctor(id);
@@ -88,13 +82,13 @@ public class DoctorController {
 		String url = "jdbc:mysql://localhost:3306/spmdb";
 		String user = "root";
 		String password = "root123";
-		String query = "SELECT patient.first_name, patient.last_name, patient.email,\n" +
+		String query = "SELECT patient.first_name, patient.last_name,patient.needTreatment, patient.email,\n" +
 				"self_assessment.question1, self_assessment.question2,self_assessment.question3,self_assessment.question4,self_assessment.question5,self_assessment.question6,self_assessment.question7,self_assessment.question8,self_assessment.question9,\n" +
 				"self_assessment.self_assessment_score\n" +
 				"FROM patient\n" +
 				"JOIN self_assessment\n" +
 				"ON patient.self_assessment_id=self_assessment.self_assessment_id;";
-		System.out.println(">>"+query);
+
 		JSONObject jsonObject = null;
 		Connection con = null;
 		Statement st = null;
@@ -171,7 +165,6 @@ public class DoctorController {
 		System.out.println("Inside getAllDoctors");
 
 		Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
-
 		String url = "jdbc:mysql://localhost:3306/spmdb";
 		String user = "root";
 		String password = "root123";
@@ -407,5 +400,64 @@ public ResponseEntity<JSONArray> getFutureAppointments(@PathVariable String doct
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+
+//Update need Treatment Status in Patient Table:
+@PutMapping("/updateTreatmentStatus")
+public ResponseEntity<String> updateTreatmentStatus(@RequestBody String payload) throws Exception {
+
+	System.out.println("Inside updateAppointment:" + payload);
+
+	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
+
+
+
+	//Taking Data From the Payload
+	Object obj= JSONValue.parse(payload);
+
+	JSONObject jsonObject = (JSONObject) obj;
+
+
+	// POST Data Parameters
+	String patient_email = (String) jsonObject.get("patient_email");
+
+	System.out.println(patient_email);
+
+	String url = "jdbc:mysql://localhost:3306/spmdb";
+	String user = "root";
+	String password = "root123";
+	String query = "UPDATE patient\n" +
+			"SET needTreatment='true'\n" +
+			"WHERE email='"+patient_email+"'";
+
+	System.out.println("Final Query is : "+query);
+	Connection con = null;
+	Statement st = null;
+
+
+	//----------------------------------------EXECUTING QUERY----------------
+	try {
+		con=DriverManager.getConnection(url,user,password);
+		st=con.createStatement();
+
+		st.executeUpdate(query);//ExecutingQuery
+
+	}
+	catch( Exception e){
+		System.out.println(e);
+	}
+
+	finally {
+		st.close();
+		con.close();
+		System.out.println("Connection Closed Successfully");
+	}
+
+
+	System.out.println("API SUCCESS");
+	//------------------------------------------------------------------------
+
+	return ResponseEntity.ok("status: success");
+}
+
 
 }
