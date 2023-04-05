@@ -460,4 +460,252 @@ public ResponseEntity<String> updateTreatmentStatus(@RequestBody String payload)
 }
 
 
+
+
+
+
+//############################REPORT_MODULE################################################################
+//Report BE API CODE:
+
+//GET DAILY REPORT
+@GetMapping("/dailyPatientCount")  //API #1
+public ResponseEntity<JSONArray> dailyPatientCount(Model model) throws Exception {
+
+	System.out.println("Inside dailyPatientCount");
+
+	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
+	String url = "jdbc:mysql://localhost:3306/spmdb";
+	String user = "root";
+	String password = "root123";
+	String query = "select DATE(date_of_birth) as DAY, count(email) as COUNT from patient group by DATE(date_of_birth);";
+
+	Connection con = null;
+	Statement st = null;
+	JSONArray result = null;
+
+	try {
+
+		con = DriverManager.getConnection(url, user, password);
+		st = con.createStatement();
+
+		ResultSet resultSet = st.executeQuery(query);//Executing Query
+
+		//Converting Result Set To JSON:
+
+		ResultSetMetaData md = resultSet.getMetaData();
+		int numCols = md.getColumnCount();
+		List<String> colNames = IntStream.range(0, numCols)
+				.mapToObj(i -> {
+					try {
+						return md.getColumnName(i + 1);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return "Exception occurred";
+					}
+				})
+				.collect(Collectors.toList());
+
+		result = new JSONArray();
+		while (resultSet.next()) {
+			JSONObject row = new JSONObject();
+			colNames.forEach(cn -> {
+				try {
+					row.put(cn, resultSet.getObject(cn));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			result.add(row);// Contains the JSON_ARRAY
+		}
+
+
+		//Conversion Ended....
+
+
+		//Printing The JSON ARRAY :
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", result);
+
+		// Default print without indent factor
+		System.out.println(jsonObject);
+
+		// Pretty print with 2 indent factor
+		System.out.println(jsonObject.toString());
+	} catch (Exception e) {
+		System.out.println(e);
+	} finally {
+		st.close();
+		con.close();
+		System.out.println("Connection Closed Successfully...");
+	}
+
+
+	System.out.println("HIT THE END, API 3 worked");
+
+	return new ResponseEntity<>(result, HttpStatus.OK);
+}
+
+
+//GET Monthly Patient Count
+@GetMapping("/monthlyPatientCount")  //API #2
+public ResponseEntity<JSONArray> monthlyPatientCount(Model model) throws Exception {
+
+	System.out.println("Inside monthlyPatientCount");
+
+	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
+	String url = "jdbc:mysql://localhost:3306/spmdb";
+	String user = "root";
+	String password = "root123";
+	String query = "select MONTH(date_of_birth) as MONTH ,YEAR(date_of_birth) as YEAR , count(email) as COUNT\n" +
+			"from patient group by MONTH(date_of_birth), YEAR(date_of_birth);";
+
+	Connection con = null;
+	Statement st = null;
+	JSONArray result = null;
+
+	try {
+
+		con = DriverManager.getConnection(url, user, password);
+		st = con.createStatement();
+
+		ResultSet resultSet = st.executeQuery(query);//Executing Query
+
+		//Converting Result Set To JSON:
+
+		ResultSetMetaData md = resultSet.getMetaData();
+		int numCols = md.getColumnCount();
+		List<String> colNames = IntStream.range(0, numCols)
+				.mapToObj(i -> {
+					try {
+						return md.getColumnName(i + 1);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return "Exception occurred";
+					}
+				})
+				.collect(Collectors.toList());
+
+		result = new JSONArray();
+		while (resultSet.next()) {
+			JSONObject row = new JSONObject();
+			colNames.forEach(cn -> {
+				try {
+					row.put(cn, resultSet.getObject(cn));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			result.add(row);// Contains the JSON_ARRAY
+		}
+
+
+		//Conversion Ended....
+
+
+		//Printing The JSON ARRAY :
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", result);
+
+		// Default print without indent factor
+		System.out.println(jsonObject);
+
+		// Pretty print with 2 indent factor
+		System.out.println(jsonObject.toString());
+	} catch (Exception e) {
+		System.out.println(e);
+	} finally {
+		st.close();
+		con.close();
+		System.out.println("Connection Closed Successfully...");
+	}
+
+
+	System.out.println("HIT THE END, API 3 worked");
+
+	return new ResponseEntity<>(result, HttpStatus.OK);
+}
+
+//Get Weekly Patient Count
+@GetMapping("/weeklyPatientCount")  //API #3
+public ResponseEntity<JSONArray> weeklyPatientCount(Model model) throws Exception {
+
+	System.out.println("Inside weeklyPatientCount");
+
+	Class.forName("com.mysql.jdbc.Driver"); //JDBC Driver
+	String url = "jdbc:mysql://localhost:3306/spmdb";
+	String user = "root";
+	String password = "root123";
+	String query = "select WEEK(date_of_birth) as WEEK,MONTH(date_of_birth) as MONTH,YEAR(date_of_birth) as YEAR, count(email) as COUNT from patient group by WEEK(date_of_birth),MONTH(date_of_birth), YEAR(date_of_birth);";
+
+	Connection con = null;
+	Statement st = null;
+	JSONArray result = null;
+
+	try {
+
+		con = DriverManager.getConnection(url, user, password);
+		st = con.createStatement();
+
+		ResultSet resultSet = st.executeQuery(query);//Executing Query
+
+		//Converting Result Set To JSON:
+
+		ResultSetMetaData md = resultSet.getMetaData();
+		int numCols = md.getColumnCount();
+		List<String> colNames = IntStream.range(0, numCols)
+				.mapToObj(i -> {
+					try {
+						return md.getColumnName(i + 1);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return "Exception occurred";
+					}
+				})
+				.collect(Collectors.toList());
+
+		result = new JSONArray();
+		while (resultSet.next()) {
+			JSONObject row = new JSONObject();
+			colNames.forEach(cn -> {
+				try {
+					row.put(cn, resultSet.getObject(cn));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			result.add(row);// Contains the JSON_ARRAY
+		}
+
+
+		//Conversion Ended....
+
+
+		//Printing The JSON ARRAY :
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", result);
+
+		// Default print without indent factor
+		System.out.println(jsonObject);
+
+		// Pretty print with 2 indent factor
+		System.out.println(jsonObject.toString());
+	} catch (Exception e) {
+		System.out.println(e);
+	} finally {
+		st.close();
+		con.close();
+		System.out.println("Connection Closed Successfully...");
+	}
+
+
+	System.out.println("HIT THE END, API 3 worked");
+
+	return new ResponseEntity<>(result, HttpStatus.OK);
+}
+
+
+
 }
