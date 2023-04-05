@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/counsellor.css">
+    <link rel="stylesheet" href="counsellor.css">
+    <title>LifeLine</title>
+    
+</head>
+<body>
+    <!-- Header Section-->
+    <nav class="navbar navbar-inverse sticky-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a href="/index"><img class="header-icon" src="/images/LIFELINE.png"></a>
+          </div>
+         
+          <p class="text-right"><a th:href="@{/profile(id=${cid},type=D)}">My Profile</a> </p>
+        </div>
+    </nav>
+     
+     <!-- Welcome Section -->
+    <main>
+    <div class ="counsellor-container container">
+            <h1 class="counsellor-title">Hello Doctor</h1>
+            <div class="operation-buttons mt-10">
+                <button class="upcoming-appointments main-btn">Upcoming Appointments</button>
+                <button class="past-appointments main-btn">Past Appointments</button>
+            </div>  
+
+
+
+
+            <!--Display Section-->
+        <div class="loader-container display-none mt-1">
+            <div class="loader"></div>
+            <div class="loader"></div>
+            <div class="loader"></div>
+            <div class="loader"></div>
+            <div class="loader"></div>
+        </div>
+        <!-- Upcoming Appointment List -->
+        <div class="upApp-list-table list-table mt-1 display-none">
+            <table class="table table-striped ">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+              
+                
+                  <tr class="display-none upApp-row">
+                    <td class="pat-name"></td>
+                    <td class="pat-email"></td>
+                    <td class="pat-score"></td>
+                    <td class="pat-accept-reject">
+                        <button type="button" class="popups btn-success ModpopupBtn">Modify</button>
+                        <button type="button" class="popups btn-danger RefpopupBtn">Refuse</button>
+                   <a href="assess.html"><button type="button" class="popups btn-info RespopupBtn">Results</button></a> 
+    
+                    </td>
+                  </tr>
+
+              </thead>      
+                  <tbody>
+					  
+                </tbody>
+              </table>
+        </div>
+        
+         <!-- Past Appointment List -->
+        <div class="paApp-list-table list-table mt-1 display-none">
+            <table class="table table-striped ">
+                <thead>
+                  <tr>
+                    <!--<th scope="col"></th>-->
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                  
+                    <tr class="display-none paApp-row">
+                    <td class="pat-name"></td>
+                    <td class="pat-email"></td>
+                    <td class="pat-score"></td>
+                    <td class="pat-schedule"></td>
+                    <td class="pat-status"></td>
+                  </tr> 
+                  
+                </thead>    
+                  <tbody>
+					        
+                </tbody>
+              </table>
+        </div>     
+    </main>
+       
+               
+
+
+<div id="ModPopup" class="popup">
+    <div class="popup-content">
+   
+          
+          <div class="popup-body">
+		  <span class="close-button">&times;</span>	  
+          <p>Patient name: </p>
+          <input id="name" type="text" value="AB"><br>
+          <p>Patient email address: </p>
+            <input type="text" id="modd" value="Modemailid"><br>
+            <p>Select a date for the appointment: </p>
+            <input id="appointment_date" type="date"><br>
+            <input id="appointment_time" type="time" step=2><br>
+             <button class="send-email main-btn close" id="Modemailid">Submit</button>
+            </div>
+</div>
+
+    <!-- Footer Section-->
+    <footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <p class="paragraph-text">Contact Us:</p>
+            <a href="#">Github</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Email</a>
+            <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+        </div>
+    </footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/js/doctor.js"></script>
+
+</body>
+</html>

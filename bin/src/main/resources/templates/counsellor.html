@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/js/counsellor.js"></script>
+    <link rel="stylesheet" href="/css/counsellor.css">
+    <title>LifeLine</title>
+    
+</head>
+<body>
+    <!-- Header Section-->
+    <nav class="navbar navbar-inverse sticky-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a href="/index"><img class="header-icon"  src="/images/LIFELINE.png"></a>
+          </div>
+         
+          <p class="text-right"><a th:href="@{/profile(id=${cid},type=C)}">My Profile</a> </p>
+        </div>
+    </nav>
+     
+     <!-- Welcome Section -->
+    <main>
+    <div class ="counsellor-container container">
+            <h1 class="counsellor-title">Hello Counsellor</h1>
+            <div class="operation-buttons mt-10">
+                <button class="view-patient main-btn">List of Patients</button>
+                <button class="assign-doctors main-btn">Appointment with Patient</button>
+            </div>  
+
+            <div id="myModal" class="modal fade" role="dialog">
+            </div>
+
+            <!--Display Section-->
+        <div class="loader-container display-none mt-1">
+            <div class="loader"></div>
+            <div class="loader"></div>
+
+            <div class="loader"></div>
+            <div class="loader"></div>
+            <div class="loader"></div>
+        </div>
+        <!-- Patient List -->
+        <div class="patient-list-table list-table mt-1 display-none">
+            <table class="table table-striped ">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Test Result</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="patient-self-assessment-results">
+                  
+                </tbody>
+              </table>
+        </div>
+         <!-- Appointment with Patient -->
+        <div class="appointment-list-table list-table mt-1 display-none">
+            <table class="table table-striped ">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="counsellor_appointment_list">
+                  
+                </tbody>
+              </table>
+        </div>
+         
+        
+    </main>
+       
+
+    <!-- Footer Section-->
+    <footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <p class="paragraph-text">Contact Us:</p>
+            <a href="#">Github</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Email</a>
+            <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+        </div>
+    </footer>
+
+</body>
+</html>
